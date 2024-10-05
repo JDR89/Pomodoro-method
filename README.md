@@ -1,15 +1,15 @@
 <div align='center'>
-  <h1>DECAMINO</h1>
-  <img height="200" width="200" src="https://res.cloudinary.com/dw7nvkjxx/image/upload/v1719470218/DeCamino/DeCaminoCirculo_bm96lu.png">
-  <h2>Plataforma de turismo gastronomico local</h2>
+  <h1>Pomofocus</h1>
+  
+  <h2>Plataforma de control de tiempo pomodoro</h2>
  
 </div>
 
-¡Fomentamos el turismo rural, atravez de su gastronomia local!.
+
 
 ## Cómo acceder al proyecto
 Puedes acceder a la aplicación DeCamino visitando su 
-[página web](https://github.com/igrowker/i002-decamino-front)
+[página web]()
 ## Para ejecutar el proyecto en tu entorno local, sigue estos pasos:
 Asegúrate de tener Node.js y npm instalados en tu sistema antes de ejecutar estos comandos
 1. Clona el repositorio desde GitHub:
@@ -18,7 +18,7 @@ Asegúrate de tener Node.js y npm instalados en tu sistema antes de ejecutar est
 ```
 2. Accede al directorio del proyecto:
 ```
-  cd i002-decamino-front
+  cd Pomofocus
 ````
 3. Instala las dependencias del proyecto:
 ```
@@ -28,6 +28,6 @@ Asegúrate de tener Node.js y npm instalados en tu sistema antes de ejecutar est
 ```
   npm run dev
 ```
+5. Coloca las variables de entorno de tu firebase en un archivo .env
 
-
-¡Disfruta explorando DeCamino y sus funcionalidades!
+¡Disfruta explorando Pomofocus y sus funcionalidades!
