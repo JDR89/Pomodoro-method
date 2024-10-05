@@ -1,119 +1,54 @@
-import { Chip } from "@nextui-org/react"
-import { Navigate, Route, Routes } from "react-router-dom"
-import { Landing_Page } from "./Pages/LandingPage/Landing_Page.View"
+import { Navigate, Route, Routes } from "react-router-dom";
+import { LandingPage } from "./Pages/LandingPage";
+import { LoginPage } from "./Pages/LoginPage";
+import { RegisterPage } from "./Pages/RegisterPage";
+import { useAuth } from "./hooks/useAuth";
+import { useTasks } from "./hooks/useTasks";
+import { useEffect } from "react";
 
 function App() {
+  const { status  } = useAuth();
+  const {deleteAllLogin,getTasksFromFirebase} = useTasks()
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      // Eliminar las tareas del localStorage si el usuario está autenticado
+      localStorage.removeItem("tasks");
+      deleteAllLogin()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+  
+  useEffect(() => {
+    getTasksFromFirebase()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status])
+  
+  
   return (
     <>
-    <Routes>
-      <Route path="Home" element={
-        <Landing_Page/>
-      }>
-      </Route>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/login"
+          element={status === "authenticated" ? <LandingPage /> : <LoginPage />}
+        />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/*" element={<LandingPage />} />
 
-      <Route path="Profile" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="danger" variant="shadow">PROFILE</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Payment" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="success" variant="shadow">PAYMENT</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="PrivacyPolicy" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-black font-bold" color="default" variant="shadow">PrivacyPolicy</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Filter" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="secondary" variant="shadow">FILTRO</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Details" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-black font-bold" color="warning" variant="shadow">DETALLES</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Routes" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="primary" variant="shadow">RUTAS</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="History" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="primary" variant="shadow">HISTORIAL</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Settings" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-black font-bold" color="default" variant="shadow">Configuraciones</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Analytics" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="danger" variant="shadow">Analiticas</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Menu" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="warning" variant="shadow">MENU</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Login" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="primary" variant="shadow">Inicio de Sesion</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Register" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="secondary" variant="shadow">REGISTRO</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Reservations" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="secondary" variant="shadow">RESERVASCIONES</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path="Reviews" element={
-        <main className="w-full h-screen bg-gray-800 flex justify-center items-center">
-          <Chip className="text-white font-bold" color="danger" variant="shadow">RESEÑAS</Chip>
-        </main>
-      }>
-      </Route>
-
-      <Route path='/*' element={< Navigate to="/Home" />} />
-    </Routes>
+        <Route
+          path="/report"
+          element={
+            status === "authenticated" ? (
+              <h1>Report</h1>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
