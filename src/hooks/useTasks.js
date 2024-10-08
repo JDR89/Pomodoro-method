@@ -53,16 +53,17 @@ export const useTasks = () => {
 
     if (user && user.uid !== "") {
       const { uid } = user;
-
+      dispatch(addTask(task));
       try {
         const taskRef = doc(db, "users", uid, "tasks", task.id);
 
         // Agregar la tarea directamente usando el id especificado del front
         await setDoc(taskRef, task);
 
-        dispatch(addTask(task));
+        
       } catch (error) {
         console.error("Error adding task: ", error);
+        dispatch(deleteTask(task.id));
       }
     } else {
       const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -89,7 +90,7 @@ export const useTasks = () => {
     } else {
       if (user && user.uid !== "") {
         const { uid } = user;
-
+        dispatch(changeCompleted(id));
         try {
           const taskRef = doc(db, "users", uid, "tasks", id);
 
@@ -103,12 +104,14 @@ export const useTasks = () => {
               completed: !taskData.completed,
             });
 
-            dispatch(changeCompleted(id));
+            
           } else {
             console.error("Task does not exist in Firebase");
+            dispatch(changeCompleted(id));
           }
         } catch (error) {
           console.error("Error updating task completion: ", error);
+          dispatch(changeCompleted(id));
         }
       }
     }
