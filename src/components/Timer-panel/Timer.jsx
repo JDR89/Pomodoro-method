@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { FaRepeat } from "react-icons/fa6";
+import { usePomodoro } from "../../hooks/usePomodoro";
 
 export const Timer = () => {
-  const initialMinutes = 20; // Tiempo inicial en minutos
+  const { time } = usePomodoro();
+
+  const initialMinutes = time; // Tiempo inicial en minutos
   const [seconds, setSeconds] = useState(initialMinutes * 60); // Estado del tiempo en segundos
   const [isRunning, setIsRunning] = useState(false); // Controla si el temporizador está en marcha
   const startTimeRef = useRef(null); // Hora de inicio
@@ -51,13 +54,19 @@ export const Timer = () => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
 
+  useEffect(() => {
+    resetTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [time]);
+
   return (
     <div className="flex flex-col items-center mt-10">
       <span className="countdown font-nunito font-bold text-[100px] md:text-[130px] text-[#fafafa]">
         <span style={{ "--value": minutes }}></span>:
         <span
           style={{
-            "--value": remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds,
+            "--value":
+              remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds,
           }}
         ></span>
       </span>

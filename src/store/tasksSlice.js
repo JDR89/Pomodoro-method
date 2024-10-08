@@ -7,7 +7,7 @@ export const tasksSlice = createSlice({
 
   initialState: {
     loading: false,
-    tasks: initialTasks
+    tasks: initialTasks,
   },
 
   reducers: {
@@ -27,7 +27,6 @@ export const tasksSlice = createSlice({
     editTask: (state, { payload }) => {
       state.tasks = state.tasks.map((task) => {
         if (task.id === payload.id) {
-          
           return { ...task, ...payload };
         }
         return task;
@@ -38,15 +37,25 @@ export const tasksSlice = createSlice({
       state.tasks = state.tasks.filter((task) => task.id !== payload);
     },
 
-    deleteAllForLogin:(state)=>{
-      state.tasks = []
+    deleteAllForLogin: (state) => {
+      state.tasks = [];
     },
 
     setTasksFromFirebase: (state, { payload }) => {
       state.tasks = payload;
-    }
+    },
+
+    
   },
 });
 // Action creators are generated for each case reducer function
-export const { addTask,changeCompleted,deleteTask,editTask,deleteAllForLogin,setTasksFromFirebase } = tasksSlice.actions;
+export const {
+  addTask,
+  changeCompleted,
+  deleteTask,
+  editTask,
+  deleteAllForLogin,
+  setTasksFromFirebase,
+  
+} = tasksSlice.actions;
 export default tasksSlice.reducer;

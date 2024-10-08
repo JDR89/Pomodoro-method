@@ -6,10 +6,12 @@ import { RiMenu4Fill } from "react-icons/ri";
 import { CiLogin, CiKeyboard } from "react-icons/ci";
 import { useAuth } from "../../hooks/useAuth";
 import { useTasks } from "../../hooks/useTasks";
+import { usePomodoro } from "../../hooks/usePomodoro";
 
 export const Navbar = () => {
   const { startLogoutUser, status } = useAuth();
   const { deleteAllLogin } = useTasks();
+  const { setTimer } = usePomodoro();
 
   const handleLogout = () => {
     startLogoutUser();
@@ -38,10 +40,49 @@ export const Navbar = () => {
             </Link>
           )}
 
-          <button className="btn btn-sm bg-[#FFFFFF1A] border-none text-[#fafafa] font-nunito text-md font-thin">
-            <IoIosSettings color="#fafafa" size={20} />
-            <span className="hidden lg:flex">Setting</span>
-          </button>
+          <div className="dropdown">
+            <button className="btn btn-sm bg-[#FFFFFF1A] border-none text-[#fafafa] font-nunito text-md font-thin">
+              <IoIosSettings color="#fafafa" size={20} />
+              <span className="hidden lg:flex">Setting</span>
+            </button>
+            <ul
+              tabIndex={0}
+              className="menu menu-compact dropdown-content mt-3 shadow bg-[#fafafa] rounded-box w-40 z-50"
+            >
+              <li>
+                <button
+                  onClick={() => setTimer(20)}
+                  className="hover:bg-[#dc5a5a] hover:text-[#fafafa]"
+                >
+                  20 minutes
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setTimer(25)}
+                  className="hover:bg-[#dc5a5a] hover:text-[#fafafa]"
+                >
+                  25 minutes
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setTimer(30)}
+                  className="hover:bg-[#dc5a5a] hover:text-[#fafafa]"
+                >
+                  30 minutes
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setTimer(60)}
+                  className="hover:bg-[#dc5a5a] hover:text-[#fafafa]"
+                >
+                  60 minutes
+                </button>
+              </li>
+            </ul>
+          </div>
 
           {status !== "authenticated" && (
             <Link to="/login">

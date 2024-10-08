@@ -40,6 +40,7 @@ export const useTasks = () => {
         return dispatch(setTasksFromFirebase(tasks));
       } catch (error) {
         console.error("Error fetching tasks: ", error);
+
         return [];
       }
     } else {
@@ -73,7 +74,6 @@ export const useTasks = () => {
 
   const startCompleted = async (id) => {
     if (status !== "authenticated") {
-
       const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
       const updatedTasks = existingTasks.map((task) => {
@@ -87,7 +87,6 @@ export const useTasks = () => {
 
       dispatch(changeCompleted(id));
     } else {
-
       if (user && user.uid !== "") {
         const { uid } = user;
 
@@ -115,7 +114,7 @@ export const useTasks = () => {
     }
   };
 
-  const startEditTask = async(editedTask) => {
+  const startEditTask = async (editedTask) => {
     if (status !== "authenticated") {
       const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -129,27 +128,27 @@ export const useTasks = () => {
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
       dispatch(editTask(editedTask));
     } else {
-       if (user && user.uid !== "") {
-      const { uid } = user;
+      if (user && user.uid !== "") {
+        const { uid } = user;
 
-      try {
-        // Referencia al documento de la tarea en Firebase
-        const taskRef = doc(db, "users", uid, "tasks", editedTask.id);
+        try {
+          // Referencia al documento de la tarea en Firebase
+          const taskRef = doc(db, "users", uid, "tasks", editedTask.id);
 
-        // Actualizar la tarea con los nuevos datos
-        await updateDoc(taskRef, {
-          ...editedTask // Reemplazar con los nuevos datos de la tarea editada
-        });
+          // Actualizar la tarea con los nuevos datos
+          await updateDoc(taskRef, {
+            ...editedTask, // Reemplazar con los nuevos datos de la tarea editada
+          });
 
-        dispatch(editTask(editedTask));
-      } catch (error) {
-        console.error("Error editing task in Firebase: ", error);
+          dispatch(editTask(editedTask));
+        } catch (error) {
+          console.error("Error editing task in Firebase: ", error);
+        }
       }
-    }
     }
   };
 
-  const startDeleteTask = async(id) => {
+  const startDeleteTask = async (id) => {
     if (status !== "authenticated") {
       const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -161,14 +160,14 @@ export const useTasks = () => {
     } else {
       if (user && user.uid !== "") {
         const { uid } = user;
-  
+
         try {
           // Referencia al documento de la tarea en Firebase
           const taskRef = doc(db, "users", uid, "tasks", id);
-  
+
           // Eliminar la tarea de Firebase
           await deleteDoc(taskRef);
-  
+
           dispatch(deleteTask(id));
         } catch (error) {
           console.error("Error deleting task from Firebase: ", error);

@@ -21,7 +21,7 @@ export const LoginPage = () => {
 
   return (
     <div
-      style={{ border: "black solid " }}
+      
       className="flex flex-col justify-center items-center min-h-screen bg-[#BA4949] " // Añadir 'items-center' aquí
     >
       <Link to="/" className="flex items-center justify-center mb-6 ">
