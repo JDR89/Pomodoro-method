@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaCheckCircle, FaUserCircle } from "react-icons/fa";
-import { TbReportSearch } from "react-icons/tb";
+// import { TbReportSearch } from "react-icons/tb";
 import { IoIosSettings } from "react-icons/io";
 import { RiMenu4Fill } from "react-icons/ri";
 import { CiLogin, CiKeyboard } from "react-icons/ci";
@@ -31,14 +31,14 @@ export const Navbar = () => {
           </h1>
         </div>
         <div className="flex gap-3">
-          {status === "authenticated" && (
+          {/* {status === "authenticated" && (
             <Link to="/report">
               <div className="btn btn-sm bg-[#FFFFFF1A] border-none text-[#fafafa] font-nunito text-md font-thin">
                 <TbReportSearch color="#fafafa" size={20} />
-                <button disabled  className="hidden lg:flex">Report</button>
+                <button  className="hidden lg:flex">Report</button>
               </div>
             </Link>
-          )}
+          )} */}
 
           <div className="dropdown">
             <button className="btn btn-sm bg-[#FFFFFF1A] border-none text-[#fafafa] font-nunito text-md font-thin">
