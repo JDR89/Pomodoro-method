@@ -163,7 +163,7 @@ export const useTasks = () => {
     } else {
       if (user && user.uid !== "") {
         const { uid } = user;
-
+        dispatch(deleteTask(id));
         try {
           // Referencia al documento de la tarea en Firebase
           const taskRef = doc(db, "users", uid, "tasks", id);
@@ -171,7 +171,7 @@ export const useTasks = () => {
           // Eliminar la tarea de Firebase
           await deleteDoc(taskRef);
 
-          dispatch(deleteTask(id));
+          
         } catch (error) {
           console.error("Error deleting task from Firebase: ", error);
         }

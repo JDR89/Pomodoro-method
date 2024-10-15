@@ -35,7 +35,7 @@ export const Navbar = () => {
             <Link to="/report">
               <div className="btn btn-sm bg-[#FFFFFF1A] border-none text-[#fafafa] font-nunito text-md font-thin">
                 <TbReportSearch color="#fafafa" size={20} />
-                <span className="hidden lg:flex">Report</span>
+                <button disabled  className="hidden lg:flex">Report</button>
               </div>
             </Link>
           )}

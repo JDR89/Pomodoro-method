@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { LandingPage } from "./Pages/LandingPage";
 import { LoginPage } from "./Pages/LoginPage";
-import { RegisterPage } from "./Pages/RegisterPage";
+
 import { useAuth } from "./hooks/useAuth";
 import { useTasks } from "./hooks/useTasks";
 import { useEffect } from "react";
@@ -31,9 +31,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
-          element={status === "authenticated" ? <LandingPage /> : <LoginPage />}
+          element={status === "authenticated" ? <Navigate to="/" /> : <LoginPage />}
         />
-        <Route path="/register" element={<RegisterPage />} />
+        
         <Route path="/*" element={<LandingPage />} />
 
         <Route
