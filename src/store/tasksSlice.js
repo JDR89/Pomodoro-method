@@ -45,6 +45,10 @@ export const tasksSlice = createSlice({
       state.tasks = payload;
     },
 
+    deleteFinishedTasks: (state) => {
+      state.tasks = state.tasks.filter((task) => task.completed !== true);
+    },
+
     
   },
 });
@@ -56,6 +60,7 @@ export const {
   editTask,
   deleteAllForLogin,
   setTasksFromFirebase,
+  deleteFinishedTasks
   
 } = tasksSlice.actions;
 export default tasksSlice.reducer;

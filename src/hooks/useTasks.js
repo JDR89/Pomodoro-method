@@ -3,6 +3,7 @@ import {
   addTask,
   changeCompleted,
   deleteAllForLogin,
+  deleteFinishedTasks,
   deleteTask,
   editTask,
   setTasksFromFirebase,
@@ -59,8 +60,6 @@ export const useTasks = () => {
 
         // Agregar la tarea directamente usando el id especificado del front
         await setDoc(taskRef, task);
-
-        
       } catch (error) {
         console.error("Error adding task: ", error);
         dispatch(deleteTask(task.id));
@@ -103,8 +102,6 @@ export const useTasks = () => {
             await updateDoc(taskRef, {
               completed: !taskData.completed,
             });
-
-            
           } else {
             console.error("Task does not exist in Firebase");
             dispatch(changeCompleted(id));
@@ -170,8 +167,6 @@ export const useTasks = () => {
 
           // Eliminar la tarea de Firebase
           await deleteDoc(taskRef);
-
-          
         } catch (error) {
           console.error("Error deleting task from Firebase: ", error);
         }
@@ -181,6 +176,53 @@ export const useTasks = () => {
 
   const deleteAllLogin = () => {
     dispatch(deleteAllForLogin());
+  };
+
+  const deleteAllTasks = () => {
+    if (user && user.uid !== "") {
+      try {
+        const { uid } = user;
+        const tasksRef = collection(db, "users", uid, "tasks");
+        getDocs(tasksRef).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            deleteDoc(doc.ref);
+          });
+        });
+        dispatch(deleteAllForLogin());
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      dispatch(deleteAllForLogin());
+      localStorage.removeItem("tasks");
+    }
+  };
+
+  const deleteDoneTasks = () => {
+    if (user && user.uid !== "") {
+      try {
+        const { uid } = user;
+        const tasksRef = collection(db, "users", uid, "tasks");
+        getDocs(tasksRef).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data().completed) {
+              deleteDoc(doc.ref);
+            }
+          });
+        });
+        dispatch(deleteFinishedTasks());
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      const updatedTasks = tasks.filter((task) => !task.completed);
+
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
+      dispatch(deleteFinishedTasks());
+    }
   };
 
   return {
@@ -194,5 +236,7 @@ export const useTasks = () => {
     startDeleteTask,
     deleteAllLogin,
     getTasksFromFirebase,
+    deleteAllTasks,
+    deleteDoneTasks,
   };
 };
