@@ -6,6 +6,7 @@ export const pomodoroSlice = createSlice({
   initialState: {
     pomodoroTime: 20,
     time: 20,
+    acc:0
   },
 
   reducers: {
@@ -16,8 +17,9 @@ export const pomodoroSlice = createSlice({
     setPomodoroTimeOption: (state, { payload }) => {
       state.pomodoroTime = payload;
     },
+    
   },
 });
 // Action creators are generated for each case reducer function
-export const { setTime, setPomodoroTimeOption } = pomodoroSlice.actions;
+export const { setTime, setPomodoroTimeOption,setpomoOrBreack } = pomodoroSlice.actions;
 export default pomodoroSlice.reducer;

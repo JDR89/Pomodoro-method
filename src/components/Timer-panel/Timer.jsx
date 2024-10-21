@@ -2,14 +2,21 @@ import { useState, useEffect, useRef } from "react";
 import { FaRepeat } from "react-icons/fa6";
 import { usePomodoro } from "../../hooks/usePomodoro";
 
+
 export const Timer = () => {
-  const { time } = usePomodoro();
+  const { time,setTimer } = usePomodoro();
+  
 
   const initialMinutes = time; // Tiempo inicial en minutos
   const [seconds, setSeconds] = useState(initialMinutes * 60); // Estado del tiempo en segundos
   const [isRunning, setIsRunning] = useState(false); // Controla si el temporizador está en marcha
   const startTimeRef = useRef(null); // Hora de inicio
   const expectedEndTimeRef = useRef(null); // Hora en que se espera que termine el temporizador
+
+  const playSound = () => {
+    const audio = new Audio('/clickButton.wav');
+    audio.play();
+  };
 
   useEffect(() => {
     let intervalId;
@@ -27,6 +34,8 @@ export const Timer = () => {
         if (timeRemaining === 0) {
           setIsRunning(false); // Detener el temporizador cuando llega a 0
           clearInterval(intervalId);
+          setTimer(5)
+          
         }
       }, 1000); // Se ejecuta cada segundo
     }
@@ -40,8 +49,11 @@ export const Timer = () => {
       const currentTime = Date.now();
       startTimeRef.current = currentTime;
       expectedEndTimeRef.current = currentTime + seconds * 1000; // Calcula la hora en la que debe terminar
+
+      playSound();
     }
     setIsRunning((prev) => !prev); // Cambia el estado de ejecución
+    playSound();
   };
 
   const resetTimer = () => {
@@ -53,6 +65,8 @@ export const Timer = () => {
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
+
+  
 
   useEffect(() => {
     resetTimer();

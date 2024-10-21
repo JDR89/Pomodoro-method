@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setPomodoroTimeOption, setTime } from "../store/pomodoroSlice";
+import { setPomodoroTimeOption, setTime} from "../store/pomodoroSlice";
 
 export const usePomodoro = () => {
   const dispatch = useDispatch();
@@ -13,11 +13,15 @@ export const usePomodoro = () => {
     return;
   };
 
+
+
   return {
     //Data
     time,
     pomodoroTime,
+    
     //Métodos
     setTimer,
+    
   };
 };
